@@ -9,6 +9,6 @@ public class BasicHelloWorld
 
 		var result = Gettext.GetString("Hello, world!");
 
-		Assert.Equal("Hello, world!", result.ToString());
+		Assert.Equal("Hello, world!", result);
 	}
 }

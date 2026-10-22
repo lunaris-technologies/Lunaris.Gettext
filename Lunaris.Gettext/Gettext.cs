@@ -53,7 +53,7 @@ public static partial class Gettext
 	}
 
 	[LibraryImport("libc.so.6", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetString(string msgid);
+	private static partial nint _GetString(nint msgid);
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> from the selected textdomain and locale.
@@ -62,10 +62,18 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetString(string msgid, params object[] args)
 	{
-		var result = Marshal.PtrToStringUTF8(_GetString(msgid))
-		?? msgid;
+		nint inputPtr = Marshal.StringToCoTaskMemUTF8(msgid);
 
-		return string.Format(result, args);
+		try
+		{
+			nint resultPtr = _GetString(inputPtr);
+			if (resultPtr == 0) return string.Format(msgid, args);
+			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
+		}
+		finally
+		{
+			Marshal.FreeCoTaskMem(inputPtr);
+		}
 	}
 	/// <inheritdoc cref="GetString(string, object[])" />
 	public static string __(string msgid, params object[] args) => GetString(msgid, args);

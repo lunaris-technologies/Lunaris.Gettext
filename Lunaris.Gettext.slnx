@@ -1,4 +1,5 @@
 <Solution>
-	<Project Path="Lunaris.Gettext.csproj" />
+	<Project Path="Lunaris.Gettext/Lunaris.Gettext.csproj" />
+	<Project Path="Lunaris.Gettext.Demo/Lunaris.Gettext.Demo.csproj" />
 	<Project Path="Lunaris.Gettext.Tests/Lunaris.Gettext.Tests.csproj" />
 </Solution>
