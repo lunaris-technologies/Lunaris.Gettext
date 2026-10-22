@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>Lunaris.Gettext</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Maxine Lunaris</Authors>
+    <Company>Lunaris Technologis</Company>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <Description>Native GNU Gettext for C#</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackagProjectUrl>https://codeberg.org/shrimple/Lunaris.Gettext#readme</PackagProjectUrl>
+    <RepositoryUrl>https://codeberg.org/shrimple/Lunaris.Gettext</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<SupportedPlatform Include="linux" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Lunaris.Gettext.Tests/**/*.cs" />
+  </ItemGroup>
+
+</Project>
