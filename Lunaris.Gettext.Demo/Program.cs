@@ -7,7 +7,8 @@ internal class Program
 	{
 		SetLocale(LC.ALL, "en");
 
-		Console.WriteLine(__("Hello, world!"));
+		Console.WriteLine(__("I have an apple."));
+		Console.WriteLine(N__("I have {0} apple.", "I have {0} apples.", 1));
 		Console.WriteLine(N__("I have {0} apple.", "I have {0} apples.", 2));
 	}
 }
