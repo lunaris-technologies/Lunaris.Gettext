@@ -79,7 +79,7 @@ public static partial class Gettext
 	public static string __(string msgid, params object[] args) => GetString(msgid, args);
 
 	[LibraryImport("libc.so.6", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetPluralString(string msgid1, string msgid2, ulong n);
+	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nint n);
 
 	/// <summary>
 	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from the selected textdomain and locale and their plural forms when applicable.
@@ -89,10 +89,20 @@ public static partial class Gettext
 	/// <param name="n">The count.</param>
 	public static string GetPluralString(string msgid1, string msgid2, ulong n)
 	{
-		var result = Marshal.PtrToStringUTF8(_GetPluralString(msgid1, msgid2, n))
-		?? throw new InvalidOperationException("gettext returned a null pointer");
+		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
+		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
 
-		return string.Format(result, n);
+		try
+		{
+			nint resultPtr = _GetPluralString(msgid1Ptr, msgid2Ptr, (nint)n);
+			if (resultPtr == 0) return string.Format(n > 1 ? msgid1 : msgid2, n);
+			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? (n > 1 ? msgid1 : msgid2), n);
+		}
+		finally
+		{
+			Marshal.FreeCoTaskMem(msgid1Ptr);
+			Marshal.FreeCoTaskMem(msgid2Ptr);
+		}
 	}
 	/// <inheritdoc cref="GetPluralString(string, string, ulong)" />
 	public static string N__(string msgid1, string msgid2, ulong n) => GetPluralString(msgid1, msgid2, n);
