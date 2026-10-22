@@ -79,7 +79,7 @@ public static partial class Gettext
 	public static string __(string msgid, params object[] args) => GetString(msgid, args);
 
 	[LibraryImport("libc.so.6", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nint n);
+	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nuint n);
 
 	/// <summary>
 	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from the selected textdomain and locale and their plural forms when applicable.
@@ -87,16 +87,22 @@ public static partial class Gettext
 	/// <param name="msgid1">The singular message ID.</param>
 	/// <param name="msgid2">The plural message ID.</param>
 	/// <param name="n">The count.</param>
-	public static string GetPluralString(string msgid1, string msgid2, ulong n)
+	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
+	public static string GetPluralString(string msgid1, string msgid2, nuint n, params object[] args)
 	{
 		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
 		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
 
 		try
 		{
-			nint resultPtr = _GetPluralString(msgid1Ptr, msgid2Ptr, (nint)n);
-			if (resultPtr == 0) return string.Format(n > 1 ? msgid1 : msgid2, n);
-			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? (n > 1 ? msgid1 : msgid2), n);
+			nint resultPtr = _GetPluralString(msgid1Ptr, msgid2Ptr, n);
+
+			string format = resultPtr == 0
+				? (n == 1 ? msgid1 : msgid2)
+				: Marshal.PtrToStringUTF8(resultPtr)
+					?? (n == 1 ? msgid1 : msgid2);
+
+			return string.Format(format, args);
 		}
 		finally
 		{
@@ -104,8 +110,8 @@ public static partial class Gettext
 			Marshal.FreeCoTaskMem(msgid2Ptr);
 		}
 	}
-	/// <inheritdoc cref="GetPluralString(string, string, ulong)" />
-	public static string N__(string msgid1, string msgid2, ulong n) => GetPluralString(msgid1, msgid2, n);
+	/// <inheritdoc cref="GetPluralString(string, string, nuint, object[])" />
+	public static string N__(string msgid1, string msgid2, nuint n, params object[] args) => GetPluralString(msgid1, msgid2, n, args);
 
 
 	/// <summary>
