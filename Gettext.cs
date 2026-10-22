@@ -49,12 +49,7 @@ public static partial class Gettext
 {
 	static Gettext()
 	{
-		SetLocale(LC.CTYPE, Environment.GetEnvironmentVariable("LC_CTYPE")!);
-		SetLocale(LC.NUMERIC, Environment.GetEnvironmentVariable("LC_NUMERIC")!);
-		SetLocale(LC.TIME, Environment.GetEnvironmentVariable("LC_TIME")!);
-		SetLocale(LC.COLLATE, Environment.GetEnvironmentVariable("LC_COLLATE")!);
-		SetLocale(LC.MONETARY, Environment.GetEnvironmentVariable("LC_MONETARY")!);
-		SetLocale(LC.MESSAGES, Environment.GetEnvironmentVariable("LC_MESSAGES")!);
+		SetLocale(LC.ALL, "");
 	}
 
 	[LibraryImport("libc.so.6", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
@@ -67,8 +62,7 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetString(string msgid, params object[] args)
 	{
-		var ptr = _GetString(msgid);
-		var result = Marshal.PtrToStringUTF8(ptr)
+		var result = Marshal.PtrToStringUTF8(_GetString(msgid))
 		?? msgid;
 
 		return string.Format(result, args);
@@ -87,8 +81,7 @@ public static partial class Gettext
 	/// <param name="n">The count.</param>
 	public static string GetPluralString(string msgid1, string msgid2, ulong n)
 	{
-		var ptr = _GetPluralString(msgid1, msgid2, n);
-		var result = Marshal.PtrToStringUTF8(ptr)
+		var result = Marshal.PtrToStringUTF8(_GetPluralString(msgid1, msgid2, n))
 		?? throw new InvalidOperationException("gettext returned a null pointer");
 
 		return string.Format(result, n);
