@@ -102,7 +102,7 @@ public static partial class Gettext
 				: Marshal.PtrToStringUTF8(resultPtr)
 					?? (n == 1 ? msgid1 : msgid2);
 
-			return string.Format(format, args);
+			return string.Format(format, n, args);
 		}
 		finally
 		{
