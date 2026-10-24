@@ -4,27 +4,6 @@ using System.Text;
 namespace Lunaris.Gettext;
 
 /// <summary>
-/// Eqivalents of <c>LC_*</c> environment variables.
-/// </summary>
-public enum LC
-{
-	/// <summary>Locale for character classification and case-conversion rules</summary>
-	CTYPE,
-	/// <summary>Locale for general numeric rules that don't apply to <see cref="MONETARY" /></summary>
-	NUMERIC,
-	/// <summary>Locale for dates and times.</summary>
-	TIME,
-	/// <summary>Locale for string sorting and character-collation order.</summary>
-	COLLATE,
-	/// <summary>Locale for currency formatting conventions.</summary>
-	MONETARY,
-	/// <summary>Locale for the user interface.</summary>
-	MESSAGES,
-	/// <summary>All locale categories.</summary>
-	ALL
-}
-
-/// <summary>
 /// The main <c>Gettext</c> class.
 /// </summary>
 /// <example>
