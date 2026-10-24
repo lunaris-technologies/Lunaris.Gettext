@@ -26,7 +26,14 @@ namespace Lunaris.Gettext;
 /// </example>
 public static partial class Gettext
 {
-	[LibraryImport("libc.so.6", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
+	internal const string LibraryName = "_";
+
+	static Gettext()
+	{
+		NativeResolver.Initialize();
+	}
+	
+	[LibraryImport(LibraryName, EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _GetString(nint msgid);
 
 	/// <summary>
@@ -52,7 +59,7 @@ public static partial class Gettext
 	/// <inheritdoc cref="GetString(string, object[])" />
 	public static string __(string msgid, params object[] args) => GetString(msgid, args);
 
-	[LibraryImport("libc.so.6", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport(LibraryName, EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nuint n);
 
 	/// <summary>
@@ -91,7 +98,7 @@ public static partial class Gettext
 	/// Sets the active message domain.
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
-	[LibraryImport("libc.so.6", EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport(LibraryName, EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint SetTextDomain(string domainname);
 
 	/// <summary>
@@ -99,7 +106,7 @@ public static partial class Gettext
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="dirname">The directory of stored locales. This should be <c>/usr/share/locale</c>.</param>
-	[LibraryImport("libc.so.6", EntryPoint = "bindtextdomain", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport(LibraryName, EntryPoint = "bindtextdomain", StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint BindTextDomain(string domainname, string dirname);
 
 	/// <summary>
@@ -107,6 +114,6 @@ public static partial class Gettext
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="codeset">The codeset. In most cases, this should be <c>UTF-8</c>.</param>
-	[LibraryImport("libc.so.6", EntryPoint = "bind_textdomain_codeset", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport(LibraryName, EntryPoint = "bind_textdomain_codeset", StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint BindTextDomainCodeset(string domainname, string codeset);
 }
