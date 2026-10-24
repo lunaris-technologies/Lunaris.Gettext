@@ -47,11 +47,6 @@ public enum LC
 /// </example>
 public static partial class Gettext
 {
-	static Gettext()
-	{
-		SetLocale(LC.ALL, "");
-	}
-
 	[LibraryImport("libc.so.6", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _GetString(nint msgid);
 
@@ -112,19 +107,6 @@ public static partial class Gettext
 	}
 	/// <inheritdoc cref="GetPluralString(string, string, nuint, object[])" />
 	public static string N__(string msgid1, string msgid2, nuint n, params object[] args) => GetPluralString(msgid1, msgid2, n, args);
-
-
-	/// <summary>
-	/// Sets the default locale.
-	/// </summary>
-	/// <remarks>
-	/// In most cases, you do not need to call this function.
-	/// </remarks>
-	/// <param name="category">The LC category.</param>
-	/// <param name="locale">The locale in the POSIX locale identifier format.</param>
-	/// <seealso cref="LC" />
-	[LibraryImport("libc.so.6", EntryPoint = "setlocale", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint SetLocale(LC category, string locale);
 
 	/// <summary>
 	/// Sets the active message domain.
