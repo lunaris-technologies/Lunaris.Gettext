@@ -12,16 +12,13 @@ internal static class NativeResolver
 
 	private static IntPtr ResolveNativeLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
 	{
-		if (libraryName == Gettext.LibraryName)
-		{
-			string[] fallbacks = GetPlatformFallbacks();
+		string[] fallbacks = GetPlatformFallbacks();
 
-			foreach (var candidate in fallbacks)
+		foreach (var candidate in fallbacks)
+		{
+			if (NativeLibrary.TryLoad(candidate, assembly, searchPath, out IntPtr handle))
 			{
-				if (NativeLibrary.TryLoad(candidate, assembly, searchPath, out IntPtr handle))
-				{
-					return handle;
-				}
+				return handle;
 			}
 		}
 

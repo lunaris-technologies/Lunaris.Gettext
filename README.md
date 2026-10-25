@@ -7,6 +7,13 @@ including shorthands.
 
 String concatenation works the same as `string.Format` (`{0}`, `{1}`, etc.).
 
+## Dependencies
+
+gettext is the only **runtime dependency**. If you are on Linux, it comes
+pre-installed. On macOS, it can be installed via Homebrew, and there are
+packages available for gettext on winget, and Git Bash installed is enough, as
+it also pulls in gettext as a runtime dependency.
+
 ## Example
 
 ```cs
