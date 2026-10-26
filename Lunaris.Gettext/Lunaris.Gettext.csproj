@@ -11,7 +11,7 @@
     <Authors>Maxine Lunaris</Authors>
     <Company>Lunaris Technologis</Company>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-    <Description>Native GNU Gettext for C#</Description>
+    <Description>C# bindings for the gettext library</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackagProjectUrl>https://codeberg.org/shrimple/Lunaris.Gettext#readme</PackagProjectUrl>
     <RepositoryUrl>https://codeberg.org/shrimple/Lunaris.Gettext</RepositoryUrl>
