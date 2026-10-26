@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Lunaris.Gettext;
@@ -32,7 +32,7 @@ public static partial class Gettext
 	{
 		NativeResolver.Initialize();
 	}
-	
+
 	[LibraryImport(LibraryName, EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _GetString(nint msgid);
 
@@ -78,12 +78,15 @@ public static partial class Gettext
 		{
 			nint resultPtr = _GetPluralString(msgid1Ptr, msgid2Ptr, n);
 
-			string format = resultPtr == 0
-				? (n == 1 ? msgid1 : msgid2)
-				: Marshal.PtrToStringUTF8(resultPtr)
-					?? (n == 1 ? msgid1 : msgid2);
+			List<object> format = [n];
+			format.AddRange(args);
 
-			return string.Format(format, n, args);
+			return string.Format(
+				resultPtr == 0
+					? (n == 1 ? msgid1 : msgid2)
+					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid1 : msgid2),
+				format.ToArray()
+			);
 		}
 		finally
 		{
