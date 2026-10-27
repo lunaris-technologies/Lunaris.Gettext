@@ -1,6 +1,6 @@
 namespace Lunaris.Gettext.Tests;
 
-public class BasicHelloWorld
+public class SingularForms
 {
 	[Fact]
 	public void Plain()
@@ -13,7 +13,7 @@ public class BasicHelloWorld
 	[Fact]
 	public void Concatenated()
 	{
-		var result = Gettext.GetString("The quick brown {0} jumped over the lazy {1}", "fox", "dog");
+		var result = Gettext.GetString("The quick brown {1} jumped over the lazy {0}", "dog", "fox");
 
 		Assert.Equal("The quick brown fox jumped over the lazy dog", result);
 	}
