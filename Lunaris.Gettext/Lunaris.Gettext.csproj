@@ -7,9 +7,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>Lunaris.Gettext</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Maxine Lunaris</Authors>
-    <Company>Lunaris Technologis</Company>
+    <Company>Lunaris Technologies</Company>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <Description>C# bindings for the gettext library</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
