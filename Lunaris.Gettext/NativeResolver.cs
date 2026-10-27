@@ -27,19 +27,13 @@ internal static class NativeResolver
 
 	private static string[] GetPlatformFallbacks()
 	{
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+		return true switch
 		{
-			return ["libintl-9.dll", "libintl-8.dll", "libintl.dll"];
-		}
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-		{
-			return ["libc.so.6", "libgnuintl.so", "libintl.so"];
-		}
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-		{
-			return ["libintl.dylib"];
-		}
-
-		return [];
+			_ when OperatingSystem.IsWindows() => ["libintl-9.dll", "libintl-8.dll", "libintl.dll"],
+			_ when OperatingSystem.IsLinux() => ["libc.so.6", "libintl.so", "libgnuintl.so"],
+			_ when OperatingSystem.IsMacOS() => ["libintl.dylib"],
+			_ when OperatingSystem.IsFreeBSD() => ["libintl.so"],
+			_ => []
+		};
 	}
 }
