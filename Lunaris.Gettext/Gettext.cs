@@ -8,7 +8,6 @@ namespace Lunaris.Gettext;
 /// </summary>
 /// <example>
 /// global using static Lunaris.Gettext;
-/// SetLocale(LC.ALL, "eo"); // You do not need to do this manually, but this is here for the sake of demonstration.
 /// BindTextDomain("ExampleApp", "/usr/share/locale");
 /// SetTextDomain("ExampleApp");
 /// BindTextDomainCodeset("ExampleApp", "UTF-8");
@@ -68,7 +67,7 @@ public static partial class Gettext
 	/// <param name="msgid1">The singular message ID.</param>
 	/// <param name="msgid2">The plural message ID.</param>
 	/// <param name="n">The count.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
+	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralString(string msgid1, string msgid2, nuint n, params object[] args)
 	{
 		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
