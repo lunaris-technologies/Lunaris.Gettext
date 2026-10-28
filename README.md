@@ -35,3 +35,19 @@ Console.WriteLine(
   )
 ); // -> Mi havas 2 pomoj
 ```
+
+## Usage with xgettext
+
+To use Lunaris.Gettext with xgettext, use these flags:
+
+```sh
+xgettext \
+	--output ExampleApp.pot \
+	--from-code UTF-8 \
+	--keyword \
+	--keyword=GetString \
+	--keyword=GetPluralString:1,2 \
+	--keyword=__ \
+	--keyword=N__:1,2 \
+	Program.cs
+```
