@@ -8,20 +8,13 @@ namespace Lunaris.Gettext;
 /// </summary>
 /// <example>
 /// global using static Lunaris.Gettext;
+/// 
 /// BindTextDomain("ExampleApp", "/usr/share/locale");
 /// SetTextDomain("ExampleApp");
 /// BindTextDomainCodeset("ExampleApp", "UTF-8");
 ///
 /// Console.WriteLine(__("Hello, world!"));
-///                 // -> Saluton, mondo!
-///
-/// // Plural forms
-/// Console.WriteLine(N__(
-///     "I have {0} apple.",  // Singular form
-///     "I have {0} apples.", // Plural form
-///     2                     // Count
-/// ));
-/// // -> Mi havas 2 pomoj
+/// Console.WriteLine(N__("I have {0} apple.", "I have {0} apples.", 2));
 /// </example>
 public static partial class Gettext
 {
