@@ -70,8 +70,7 @@ public static partial class Gettext
 		{
 			nint resultPtr = _GetPluralString(msgid1Ptr, msgid2Ptr, n);
 
-			List<object> format = [n];
-			format.AddRange(args);
+			List<object> format = [n, .. args];
 
 			return string.Format(
 				resultPtr == 0
