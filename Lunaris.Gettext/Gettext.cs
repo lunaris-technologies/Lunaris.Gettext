@@ -1,14 +1,35 @@
+using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lunaris.Gettext;
+
+/// <summary>
+/// Locale categories for controlling how <see cref="Gettext" /> formats messages
+/// </summary>
+public enum LocaleCategory
+{
+	/// <summary>Locale for character classification and case-conversion rules</summary>
+	CType,
+	/// <summary>Locale for general numeric rules that don't apply to <see cref="Monetary" />.</summary>
+	Numeric,
+	/// <summary>Locale for dates and times.</summary>
+	Time,
+	/// <summary>Locale for string sorting and character-collation order.</summary>
+	Collate,
+	/// <summary>Locale for currency formatting conventions.</summary>
+	Monetary,
+	/// <summary>Locale for the user interface.</summary>
+	Messages,
+	/// <summary>All locale categories.</summary>
+	All
+}
 
 /// <summary>
 /// The main <c>Gettext</c> class.
 /// </summary>
 /// <example>
 /// global using static Lunaris.Gettext;
-/// 
+///
 /// BindTextDomain("ExampleApp", "/usr/share/locale");
 /// SetTextDomain("ExampleApp");
 /// BindTextDomainCodeset("ExampleApp", "UTF-8");
@@ -18,14 +39,14 @@ namespace Lunaris.Gettext;
 /// </example>
 public static partial class Gettext
 {
-	internal const string LibraryName = "_";
-
 	static Gettext()
 	{
 		NativeResolver.Initialize();
+
+		SetLocale(LocaleCategory.All, "");
 	}
 
-	[LibraryImport(LibraryName, EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport("gettext", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _GetString(nint msgid);
 
 	/// <summary>
@@ -51,7 +72,7 @@ public static partial class Gettext
 	/// <inheritdoc cref="GetString(string, object[])" />
 	public static string __(string msgid, params object[] args) => GetString(msgid, args);
 
-	[LibraryImport(LibraryName, EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport("gettext", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nuint n);
 
 	/// <summary>
@@ -92,7 +113,7 @@ public static partial class Gettext
 	/// Sets the active message domain.
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
-	[LibraryImport(LibraryName, EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport("gettext", EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint SetTextDomain(string domainname);
 
 	/// <summary>
@@ -100,7 +121,7 @@ public static partial class Gettext
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="dirname">The directory of stored locales. This should be <c>/usr/share/locale</c>.</param>
-	[LibraryImport(LibraryName, EntryPoint = "bindtextdomain", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport("gettext", EntryPoint = "bindtextdomain", StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint BindTextDomain(string domainname, string dirname);
 
 	/// <summary>
@@ -108,6 +129,70 @@ public static partial class Gettext
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="codeset">The codeset. In most cases, this should be <c>UTF-8</c>.</param>
-	[LibraryImport(LibraryName, EntryPoint = "bind_textdomain_codeset", StringMarshalling = StringMarshalling.Utf8)]
+	[LibraryImport("gettext", EntryPoint = "bind_textdomain_codeset", StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint BindTextDomainCodeset(string domainname, string codeset);
+
+	[LibraryImport("libc", EntryPoint = "setlocale", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial nint _SetLocale(LocaleCategory category, string? locale);
+
+	/// <summary>
+	/// Sets <paramref name="locale" /> to the specified <paramref name="category" />.
+	/// </summary>
+	/// <remarks>
+	/// In most cases, you do not need to call this function.
+	/// </remarks>
+	/// <exception cref="CultureNotFoundException">
+	/// <paramref name="locale" /> is not valid
+	/// </exception>
+	/// <param name="category">The locale category.</param>
+	/// <param name="locale">The locale in the POSIX locale identifier format. Leaving this parameter blank derives the locale from the environment.</param>
+	/// <seealso cref="LocaleCategory" />
+	public static string? SetLocale(LocaleCategory category, string locale)
+	{
+		if (locale == "") return Marshal.PtrToStringUTF8(_SetLocale(category, null));
+
+		// windows is truly a snowflake operating system, because while
+		// everyone and everything uses posix/unix conventions, they
+		// have to roll their own everything, so we have this compat now.
+		if (OperatingSystem.IsWindows())
+		{
+			// do not compat locale if provided locale passes as IETF BCP 47
+			// standard
+			if (locale.Contains('-'))
+				return Marshal.PtrToStringUTF8(_SetLocale(category, locale));
+
+			// underscores must be replaced with hyphens and extra locale
+			// identifiers should be stripped because of the IETF BCP 47
+			// standard
+			string formattedLocale = locale.Replace('_', '-').Split('.')[0].Split('@')[0];
+
+			try
+			{
+				_ = new CultureInfo(formattedLocale);
+
+				return Marshal.PtrToStringUTF8(_SetLocale(category, formattedLocale));
+			}
+			catch (CultureNotFoundException)
+			{
+				try
+				{
+					// reduce locale to bare language identifier
+					formattedLocale = formattedLocale.Split('-')[0];
+					_ = new CultureInfo(formattedLocale);
+
+					return Marshal.PtrToStringUTF8(_SetLocale(category, formattedLocale.Split('-')[0]));
+				}
+				catch (CultureNotFoundException)
+				{
+					throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
+				}
+
+			}
+		}
+
+		nint localeResult = _SetLocale(category, locale);
+		if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
+
+		return Marshal.PtrToStringUTF8(localeResult);
+	}
 }

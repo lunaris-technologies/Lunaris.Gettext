@@ -12,7 +12,7 @@ internal static class NativeResolver
 
 	private static IntPtr ResolveNativeLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
 	{
-		string[] fallbacks = GetPlatformFallbacks();
+		string[] fallbacks = GetPlatformFallbacks(libraryName);
 
 		foreach (var candidate in fallbacks)
 		{
@@ -25,15 +25,28 @@ internal static class NativeResolver
 		throw new DllNotFoundException("gettext is not installed on the system");
 	}
 
-	private static string[] GetPlatformFallbacks()
+	private static string[] GetPlatformFallbacks(string libraryName)
 	{
-		return true switch
+		if (libraryName == "gettext")
 		{
-			_ when OperatingSystem.IsWindows() => ["libintl-9.dll", "libintl-8.dll", "libintl.dll"],
-			_ when OperatingSystem.IsLinux() => ["libc.so.6", "libintl.so", "libgnuintl.so"],
-			_ when OperatingSystem.IsMacOS() => ["libintl.dylib"],
-			_ when OperatingSystem.IsFreeBSD() => ["libintl.so"],
-			_ => []
-		};
+			return true switch
+			{
+				_ when OperatingSystem.IsWindows() => ["libintl-9.dll", "libintl-8.dll", "libintl.dll"],
+				_ when OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD() => ["libc.so.6", "libintl.so", "libgnuintl.so"],
+				_ when OperatingSystem.IsMacOS() => ["libintl.dylib"],
+				_ => []
+			};
+		}
+		else if (libraryName == "libc")
+		{
+			return true switch
+			{
+				_ when OperatingSystem.IsWindows() => ["ucrtbase.dll"],
+				_ when OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD() => ["libc.so.6"],
+				_ when OperatingSystem.IsMacOS() => ["libSystem.B.dylib"],
+				_ => []
+			};
+		}
+		else return [libraryName];
 	}
 }
