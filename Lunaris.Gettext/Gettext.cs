@@ -46,9 +46,6 @@ public static partial class Gettext
 		SetLocale(LocaleCategory.All, "");
 	}
 
-	[LibraryImport("gettext", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetString(nint msgid);
-
 	/// <summary>
 	/// Gets <paramref name="msgid" /> from the selected textdomain and locale.
 	/// </summary>
@@ -69,11 +66,6 @@ public static partial class Gettext
 			Marshal.FreeCoTaskMem(inputPtr);
 		}
 	}
-	/// <inheritdoc cref="GetString(string, object[])" />
-	public static string __(string msgid, params object[] args) => GetString(msgid, args);
-
-	[LibraryImport("gettext", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nuint n);
 
 	/// <summary>
 	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from the selected textdomain and locale and their plural forms when applicable.
@@ -106,34 +98,6 @@ public static partial class Gettext
 			Marshal.FreeCoTaskMem(msgid2Ptr);
 		}
 	}
-	/// <inheritdoc cref="GetPluralString(string, string, nuint, object[])" />
-	public static string N__(string msgid1, string msgid2, nuint n, params object[] args) => GetPluralString(msgid1, msgid2, n, args);
-
-	/// <summary>
-	/// Sets the active message domain.
-	/// </summary>
-	/// <param name="domainname">The message domain.</param>
-	[LibraryImport("gettext", EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint SetTextDomain(string domainname);
-
-	/// <summary>
-	/// Sets the active message domain.
-	/// </summary>
-	/// <param name="domainname">The message domain.</param>
-	/// <param name="dirname">The directory of stored locales. This should be <c>/usr/share/locale</c>.</param>
-	[LibraryImport("gettext", EntryPoint = "bindtextdomain", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint BindTextDomain(string domainname, string dirname);
-
-	/// <summary>
-	/// Sets the active message domain's codeset.
-	/// </summary>
-	/// <param name="domainname">The message domain.</param>
-	/// <param name="codeset">The codeset. In most cases, this should be <c>UTF-8</c>.</param>
-	[LibraryImport("gettext", EntryPoint = "bind_textdomain_codeset", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint BindTextDomainCodeset(string domainname, string codeset);
-
-	[LibraryImport("libc", EntryPoint = "setlocale", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _SetLocale(LocaleCategory category, string? locale);
 
 	/// <summary>
 	/// Sets <paramref name="locale" /> to the specified <paramref name="category" />.
