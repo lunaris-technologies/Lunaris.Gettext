@@ -6,13 +6,13 @@ public static partial class Gettext
 {
 	#region Internal Classes
 	[LibraryImport("gettext", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetString(nint msgid);
+	private static partial nint _gettext(nint msgid);
 
 	[LibraryImport("gettext", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _GetPluralString(nint msgid1, nint msgid2, nuint n);
+	private static partial nint _ngettext(nint msgid1, nint msgid2, nuint n);
 
 	[LibraryImport("libc", EntryPoint = "setlocale", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _SetLocale(LocaleCategory category, string? locale);
+	private static partial nint _setlocale(LocaleCategory category, string? locale);
 	#endregion
 
 	#region Public Classes

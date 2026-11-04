@@ -57,7 +57,7 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _GetString(inputPtr);
+			nint resultPtr = _gettext(inputPtr);
 			if (resultPtr == 0) return string.Format(msgid, args);
 			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
 		}
@@ -81,7 +81,7 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _GetPluralString(msgid1Ptr, msgid2Ptr, n);
+			nint resultPtr = _ngettext(msgid1Ptr, msgid2Ptr, n);
 
 			List<object> format = [n, .. args];
 
@@ -113,7 +113,7 @@ public static partial class Gettext
 	/// <seealso cref="LocaleCategory" />
 	public static string? SetLocale(LocaleCategory category, string locale)
 	{
-		if (locale == "") return Marshal.PtrToStringUTF8(_SetLocale(category, null));
+		if (locale == "") return Marshal.PtrToStringUTF8(_setlocale(category, null));
 
 		// windows is truly a snowflake operating system, because while
 		// everyone and everything uses posix/unix conventions, they
@@ -123,7 +123,7 @@ public static partial class Gettext
 			// do not compat locale if provided locale passes as IETF BCP 47
 			// standard
 			if (locale.Contains('-'))
-				return Marshal.PtrToStringUTF8(_SetLocale(category, locale));
+				return Marshal.PtrToStringUTF8(_setlocale(category, locale));
 
 			// underscores must be replaced with hyphens and extra locale
 			// identifiers should be stripped because of the IETF BCP 47
@@ -134,7 +134,7 @@ public static partial class Gettext
 			{
 				_ = new CultureInfo(formattedLocale);
 
-				return Marshal.PtrToStringUTF8(_SetLocale(category, formattedLocale));
+				return Marshal.PtrToStringUTF8(_setlocale(category, formattedLocale));
 			}
 			catch (CultureNotFoundException)
 			{
@@ -144,7 +144,7 @@ public static partial class Gettext
 					formattedLocale = formattedLocale.Split('-')[0];
 					_ = new CultureInfo(formattedLocale);
 
-					return Marshal.PtrToStringUTF8(_SetLocale(category, formattedLocale.Split('-')[0]));
+					return Marshal.PtrToStringUTF8(_setlocale(category, formattedLocale.Split('-')[0]));
 				}
 				catch (CultureNotFoundException)
 				{
@@ -154,7 +154,7 @@ public static partial class Gettext
 			}
 		}
 
-		nint localeResult = _SetLocale(category, locale);
+		nint localeResult = _setlocale(category, locale);
 		if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 
 		return Marshal.PtrToStringUTF8(localeResult);
