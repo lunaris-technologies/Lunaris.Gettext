@@ -3,7 +3,8 @@
 A C# library that directly interfaces with the native gettext library.
 
 The syntax is meant to be near-exact with how you would utilize gettext via C,
-including shorthands.
+including shorthands, with the exception of certain function design changes for
+standard C# conventions.
 
 String concatenation works the same as `string.Format` (`{0}`, `{1}`, etc.).
 
