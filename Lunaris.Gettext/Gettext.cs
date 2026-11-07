@@ -47,7 +47,7 @@ public static partial class Gettext
 	}
 
 	/// <summary>
-	/// Gets <paramref name="msgid" /> from the selected textdomain and locale.
+	/// Gets <paramref name="msgid" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
 	/// <param name="msgid">The message ID.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
@@ -68,7 +68,54 @@ public static partial class Gettext
 	}
 
 	/// <summary>
-	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from the selected textdomain and locale and their plural forms when applicable.
+	/// Gets <paramref name="msgid" /> from <paramref name="domain" /> using <see cref="LocaleCategory.Messages" />.
+	/// </summary>
+	/// <param name="domain">The domain to get <paramref name="msgid" /> from.</param>
+	/// <param name="msgid">The message ID.</param>
+	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
+	public static string GetStringFromDomain(string domain, string msgid, params object[] args)
+	{
+		nint domainPtr = Marshal.StringToCoTaskMemUTF8(domain);
+		nint inputPtr = Marshal.StringToCoTaskMemUTF8(msgid);
+
+		try
+		{
+			nint resultPtr = _dgettext(domainPtr, inputPtr);
+			if (resultPtr == 0) return string.Format(msgid, args);
+			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
+		}
+		finally
+		{
+			Marshal.FreeCoTaskMem(inputPtr);
+		}
+	}
+
+	/// <summary>
+	/// Gets <paramref name="msgid" /> from <paramref name="domain" /> using <paramref name="category" />.
+	/// </summary>
+	/// <param name="domain">The domain to get <paramref name="msgid" /> from.</param>
+	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
+	/// <param name="msgid">The message ID.</param>
+	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
+	public static string GetStringFromDomainWithCategory(string domain, LocaleCategory category, string msgid, params object[] args)
+	{
+		nint domainPtr = Marshal.StringToCoTaskMemUTF8(domain);
+		nint inputPtr = Marshal.StringToCoTaskMemUTF8(msgid);
+
+		try
+		{
+			nint resultPtr = _dcgettext(domainPtr, inputPtr, category);
+			if (resultPtr == 0) return string.Format(msgid, args);
+			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
+		}
+		finally
+		{
+			Marshal.FreeCoTaskMem(inputPtr);
+		}
+	}
+
+	/// <summary>
+	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
 	/// <param name="msgid1">The singular message ID.</param>
 	/// <param name="msgid2">The plural message ID.</param>
@@ -94,6 +141,77 @@ public static partial class Gettext
 		}
 		finally
 		{
+			Marshal.FreeCoTaskMem(msgid1Ptr);
+			Marshal.FreeCoTaskMem(msgid2Ptr);
+		}
+	}
+
+	/// <summary>
+	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from <paramref name="domainname"/> using <see cref="LocaleCategory.Messages" />.
+	/// </summary>
+	/// <param name="domainname">The domain to get <paramref name="msgid1" /> and <paramref name="msgid2" /> from</param>
+	/// <param name="msgid1">The singular message ID.</param>
+	/// <param name="msgid2">The plural message ID.</param>
+	/// <param name="n">The count.</param>
+	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
+	public static string GetPluralStringFromDomain(string domainname, string msgid1, string msgid2, nuint n, params object[] args)
+	{
+		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domainname);
+		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
+		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
+
+		try
+		{
+			nint resultPtr = _dngettext(domainnamePtr, msgid1Ptr, msgid2Ptr, n);
+
+			List<object> format = [n, .. args];
+
+			return string.Format(
+				resultPtr == 0
+					? (n == 1 ? msgid1 : msgid2)
+					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid1 : msgid2),
+				format.ToArray()
+			);
+		}
+		finally
+		{
+			Marshal.FreeCoTaskMem(domainnamePtr);
+			Marshal.FreeCoTaskMem(msgid1Ptr);
+			Marshal.FreeCoTaskMem(msgid2Ptr);
+		}
+	}
+
+	/// <summary>
+	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from <paramref name="domainname"/> using <paramref name="category"/>.
+	/// </summary>
+	/// <param name="domainname">The domain to get <paramref name="msgid1" /> and <paramref name="msgid2" /> from</param>
+	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
+	/// <param name="msgid1">The singular message ID.</param>
+	/// <param name="msgid2">The plural message ID.</param>
+	/// <param name="n">The count.</param>
+	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
+	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid1, string msgid2, nuint n, params object[] args)
+	{
+		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domainname);
+		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
+		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
+
+		try
+		{
+			nint resultPtr = _dcngettext(domainnamePtr, msgid1Ptr, msgid2Ptr, n, category);
+
+			List<object> format = [n, .. args];
+
+			return string.Format(
+				resultPtr == 0
+					? (n == 1 ? msgid1 : msgid2)
+					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid1 : msgid2),
+				format.ToArray()
+			);
+		}
+		finally
+		{
+			Marshal.FreeCoTaskMem(domainnamePtr);
 			Marshal.FreeCoTaskMem(msgid1Ptr);
 			Marshal.FreeCoTaskMem(msgid2Ptr);
 		}
