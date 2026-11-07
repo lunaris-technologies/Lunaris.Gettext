@@ -17,4 +17,30 @@ public class SingularForms
 
 		Assert.Equal("The quick brown fox jumped over the lazy dog", result);
 	}
+
+	[Fact]
+	public void Translated()
+	{
+		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
+		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
+
+		var result = Gettext.GetString("I have an apple.");
+
+		Assert.Equal("Mi havas pomon.", result);
+	}
+
+	[Fact]
+	public void TranslationConcatenated()
+	{
+		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
+		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
+
+		var result = Gettext.GetString("My name is {0}.", "Johano");
+
+		Assert.Equal("Mia nomo estas Johano.", result);
+	}
 }

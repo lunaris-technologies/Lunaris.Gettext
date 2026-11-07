@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgid "I have an apple."
+msgstr "Mi havas pomon."
+
+#, csharp-format
+msgid "My name is {0}."
+msgstr "Mia nomo estas {0}."
+
+#, csharp-format
+msgid "I have one apple."
+msgid_plural "I have {0} apples."
+msgstr[0] "Mi havas unu pomon."
+msgstr[1] "Mi havas {0} pomojn."
+
+#, csharp-format
+msgid "My name is {1} and I have one apple."
+msgid_plural "My name is {1} and I have {0} apples."
+msgstr[0] "Mia nomo estas {1} kaj mi havas unu pomon."
+msgstr[1] "Mia nomo estas {1} kaj mi havas {0} pomojn."
