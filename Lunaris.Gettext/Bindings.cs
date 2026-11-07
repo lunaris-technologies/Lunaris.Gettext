@@ -15,13 +15,13 @@ public static partial class Gettext
 	private static partial nint _dcgettext(nint domain, nint msgid, LocaleCategory category);
 
 	[LibraryImport("gettext", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _ngettext(nint msgid1, nint msgid2, nuint n);
+	private static partial nint _ngettext(nint msgid, nint msgidPlural, nuint n);
 
 	[LibraryImport("gettext", EntryPoint = "dngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _dngettext(nint domainname, nint msgid1, nint msgid2, nuint n);
+	private static partial nint _dngettext(nint domainname, nint msgid, nint msgidPlural, nuint n);
 
 	[LibraryImport("gettext", EntryPoint = "dcngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _dcngettext(nint domainname, nint msgid1, nint msgid2, nuint n, LocaleCategory category);
+	private static partial nint _dcngettext(nint domainname, nint msgid, nint msgidPlural, nuint n, LocaleCategory category);
 
 	[LibraryImport("libc", EntryPoint = "setlocale", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _setlocale(LocaleCategory category, string? locale);

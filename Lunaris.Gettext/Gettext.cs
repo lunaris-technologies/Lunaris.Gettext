@@ -115,105 +115,105 @@ public static partial class Gettext
 	}
 
 	/// <summary>
-	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
+	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
-	/// <param name="msgid1">The singular message ID.</param>
-	/// <param name="msgid2">The plural message ID.</param>
+	/// <param name="msgid">The singular message ID.</param>
+	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralString(string msgid1, string msgid2, nuint n, params object[] args)
+	public static string GetPluralString(string msgid, string msgidPlural, nuint n, params object[] args)
 	{
-		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
-		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
+		nint msgidPtr = Marshal.StringToCoTaskMemUTF8(msgid);
+		nint msgidPluralPtr = Marshal.StringToCoTaskMemUTF8(msgidPlural);
 
 		try
 		{
-			nint resultPtr = _ngettext(msgid1Ptr, msgid2Ptr, n);
+			nint resultPtr = _ngettext(msgidPtr, msgidPluralPtr, n);
 
 			List<object> format = [n, .. args];
 
 			return string.Format(
 				resultPtr == 0
-					? (n == 1 ? msgid1 : msgid2)
-					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid1 : msgid2),
+					? (n == 1 ? msgid : msgidPlural)
+					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid : msgidPlural),
 				format.ToArray()
 			);
 		}
 		finally
 		{
-			Marshal.FreeCoTaskMem(msgid1Ptr);
-			Marshal.FreeCoTaskMem(msgid2Ptr);
+			Marshal.FreeCoTaskMem(msgidPtr);
+			Marshal.FreeCoTaskMem(msgidPluralPtr);
 		}
 	}
 
 	/// <summary>
-	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from <paramref name="domainname"/> using <see cref="LocaleCategory.Messages" />.
+	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from <paramref name="domainname"/> using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
-	/// <param name="domainname">The domain to get <paramref name="msgid1" /> and <paramref name="msgid2" /> from</param>
-	/// <param name="msgid1">The singular message ID.</param>
-	/// <param name="msgid2">The plural message ID.</param>
+	/// <param name="domainname">The domain to get <paramref name="msgid" /> and <paramref name="msgidPlural" /> from</param>
+	/// <param name="msgid">The singular message ID.</param>
+	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralStringFromDomain(string domainname, string msgid1, string msgid2, nuint n, params object[] args)
+	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, nuint n, params object[] args)
 	{
 		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domainname);
-		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
-		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
+		nint msgidPtr = Marshal.StringToCoTaskMemUTF8(msgid);
+		nint msgidPluralPtr = Marshal.StringToCoTaskMemUTF8(msgidPlural);
 
 		try
 		{
-			nint resultPtr = _dngettext(domainnamePtr, msgid1Ptr, msgid2Ptr, n);
+			nint resultPtr = _dngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n);
 
 			List<object> format = [n, .. args];
 
 			return string.Format(
 				resultPtr == 0
-					? (n == 1 ? msgid1 : msgid2)
-					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid1 : msgid2),
+					? (n == 1 ? msgid : msgidPlural)
+					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid : msgidPlural),
 				format.ToArray()
 			);
 		}
 		finally
 		{
 			Marshal.FreeCoTaskMem(domainnamePtr);
-			Marshal.FreeCoTaskMem(msgid1Ptr);
-			Marshal.FreeCoTaskMem(msgid2Ptr);
+			Marshal.FreeCoTaskMem(msgidPtr);
+			Marshal.FreeCoTaskMem(msgidPluralPtr);
 		}
 	}
 
 	/// <summary>
-	/// Gets <paramref name="msgid1" /> and <paramref name="msgid2" /> from <paramref name="domainname"/> using <paramref name="category"/>.
+	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from <paramref name="domainname"/> using <paramref name="category"/>.
 	/// </summary>
-	/// <param name="domainname">The domain to get <paramref name="msgid1" /> and <paramref name="msgid2" /> from</param>
+	/// <param name="domainname">The domain to get <paramref name="msgid" /> and <paramref name="msgidPlural" /> from</param>
 	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
-	/// <param name="msgid1">The singular message ID.</param>
-	/// <param name="msgid2">The plural message ID.</param>
+	/// <param name="msgid">The singular message ID.</param>
+	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid1, string msgid2, nuint n, params object[] args)
+	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid, string msgidPlural, nuint n, params object[] args)
 	{
 		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domainname);
-		nint msgid1Ptr = Marshal.StringToCoTaskMemUTF8(msgid1);
-		nint msgid2Ptr = Marshal.StringToCoTaskMemUTF8(msgid2);
+		nint msgidPtr = Marshal.StringToCoTaskMemUTF8(msgid);
+		nint msgidPluralPtr = Marshal.StringToCoTaskMemUTF8(msgidPlural);
 
 		try
 		{
-			nint resultPtr = _dcngettext(domainnamePtr, msgid1Ptr, msgid2Ptr, n, category);
+			nint resultPtr = _dcngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n, category);
 
 			List<object> format = [n, .. args];
 
 			return string.Format(
 				resultPtr == 0
-					? (n == 1 ? msgid1 : msgid2)
-					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid1 : msgid2),
+					? (n == 1 ? msgid : msgidPlural)
+					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid : msgidPlural),
 				format.ToArray()
 			);
 		}
 		finally
 		{
 			Marshal.FreeCoTaskMem(domainnamePtr);
-			Marshal.FreeCoTaskMem(msgid1Ptr);
-			Marshal.FreeCoTaskMem(msgid2Ptr);
+			Marshal.FreeCoTaskMem(msgidPtr);
+			Marshal.FreeCoTaskMem(msgidPluralPtr);
 		}
 	}
 
