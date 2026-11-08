@@ -6,21 +6,22 @@ namespace Lunaris.Gettext;
 /// <summary>
 /// Locale categories for controlling how <see cref="Gettext" /> formats messages
 /// </summary>
+/// <see cref="Gettext.SetLocale(LocaleCategory, string)" />
 public enum LocaleCategory
 {
-	/// <summary>Locale for character classification and case-conversion rules</summary>
+	/// <summary>Category for character classification and case-conversion rules</summary>
 	CType,
-	/// <summary>Locale for general numeric rules that don't apply to <see cref="Monetary" />.</summary>
+	/// <summary>Category for general numeric rules that don't apply to <see cref="Monetary" />.</summary>
 	Numeric,
-	/// <summary>Locale for dates and times.</summary>
+	/// <summary>Category for dates and times.</summary>
 	Time,
-	/// <summary>Locale for string sorting and character-collation order.</summary>
+	/// <summary>Category for string sorting and character-collation order.</summary>
 	Collate,
-	/// <summary>Locale for currency formatting conventions.</summary>
+	/// <summary>Category for currency formatting conventions.</summary>
 	Monetary,
-	/// <summary>Locale for the user interface.</summary>
+	/// <summary>Category for the user interface.</summary>
 	Messages,
-	/// <summary>All locale categories.</summary>
+	/// <summary>All categories.</summary>
 	All
 }
 
