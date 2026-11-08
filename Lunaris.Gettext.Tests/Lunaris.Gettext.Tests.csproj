@@ -22,6 +22,10 @@
     <ProjectReference Include="..\Lunaris.Gettext\Lunaris.Gettext.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Lunaris.Gettext.Tests.mo" Link="locale\eo\LC_MESSAGES\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <Target Name="CompilePo" BeforeTargets="CoreCompile">
     <Exec Command="msgfmt -o Lunaris.Gettext.Tests.mo Lunaris.Gettext.Tests.po" WorkingDirectory="$(ProjectDir)" />
   </Target>
