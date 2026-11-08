@@ -31,7 +31,7 @@ public enum LocaleCategory
 /// global using static Lunaris.Gettext;
 ///
 /// BindTextDomain("ExampleApp", "/usr/share/locale");
-/// SetTextDomain("ExampleApp");
+/// TextDomain("ExampleApp");
 /// BindTextDomainCodeset("ExampleApp", "UTF-8");
 ///
 /// Console.WriteLine(__("Hello, world!"));

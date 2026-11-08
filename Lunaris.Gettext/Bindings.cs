@@ -29,11 +29,11 @@ public static partial class Gettext
 
 	#region Public Classes
 	/// <summary>
-	/// Sets the active message domain.
+	/// Gets or sets the active message domain.
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	[LibraryImport("gettext", EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint SetTextDomain(string domainname);
+	public static partial nint TextDomain(string domainname);
 
 	/// <summary>
 	/// Sets the active message domain.

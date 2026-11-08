@@ -47,7 +47,7 @@ public class PluralForms
 	{
 		Gettext.SetLocale(LocaleCategory.Messages, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
-		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
 		var result = Gettext.GetPluralString("I have one apple.", "I have {0} apples.", 1);
@@ -60,7 +60,7 @@ public class PluralForms
 	{
 		Gettext.SetLocale(LocaleCategory.Messages, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
-		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
 		var result = Gettext.GetPluralString(
@@ -77,7 +77,7 @@ public class PluralForms
 	{
 		Gettext.SetLocale(LocaleCategory.Messages, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
-		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
 		var result = Gettext.GetPluralString("I have one apple.", "I have {0} apples.", 2);
@@ -90,7 +90,7 @@ public class PluralForms
 	{
 		Gettext.SetLocale(LocaleCategory.Messages, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
-		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
 		var result = Gettext.GetPluralString(

@@ -23,7 +23,7 @@ public class SingularForms
 	{
 		Gettext.SetLocale(LocaleCategory.Messages, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
-		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
 		var result = Gettext.GetString("I have an apple.");
@@ -36,7 +36,7 @@ public class SingularForms
 	{
 		Gettext.SetLocale(LocaleCategory.Messages, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
-		Gettext.SetTextDomain("Lunaris.Gettext.Tests");
+		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
 		var result = Gettext.GetString("My name is {0}.", "Johano");
