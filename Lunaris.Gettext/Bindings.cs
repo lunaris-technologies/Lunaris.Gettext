@@ -36,7 +36,7 @@ public static partial class Gettext
 	public static partial nint TextDomain(string domainname);
 
 	/// <summary>
-	/// Sets the active message domain.
+	/// Associates <paramref name="domainname" /> with <paramref name="dirname" />.
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="dirname">The directory of stored locales. This should be <c>/usr/share/locale</c>, or the target platform's equivalent.</param>
@@ -44,7 +44,7 @@ public static partial class Gettext
 	public static partial nint BindTextDomain(string domainname, string dirname);
 
 	/// <summary>
-	/// Sets the active message domain's codeset.
+	/// Binds <paramref name="codeset" /> with <paramref name="domainname" />.
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="codeset">The codeset. In most cases, this should be <c>UTF-8</c>.</param>
