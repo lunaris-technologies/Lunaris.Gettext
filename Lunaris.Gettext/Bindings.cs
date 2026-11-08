@@ -33,7 +33,7 @@ public static partial class Gettext
 	/// </summary>
 	/// <param name="domainname">The message domain.</param>
 	[LibraryImport("gettext", EntryPoint = "textdomain", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint TextDomain(string domainname);
+	public static partial nint TextDomain(string? domainname);
 
 	/// <summary>
 	/// Associates <paramref name="domainname" /> with <paramref name="dirname" />.
@@ -41,7 +41,7 @@ public static partial class Gettext
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="dirname">The directory of stored locales. This should be <c>/usr/share/locale</c>, or the target platform's equivalent.</param>
 	[LibraryImport("gettext", EntryPoint = "bindtextdomain", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint BindTextDomain(string domainname, string dirname);
+	public static partial nint BindTextDomain(string domainname, string? dirname);
 
 	/// <summary>
 	/// Binds <paramref name="codeset" /> with <paramref name="domainname" />.
@@ -49,6 +49,6 @@ public static partial class Gettext
 	/// <param name="domainname">The message domain.</param>
 	/// <param name="codeset">The codeset. In most cases, this should be <c>UTF-8</c>.</param>
 	[LibraryImport("gettext", EntryPoint = "bind_textdomain_codeset", StringMarshalling = StringMarshalling.Utf8)]
-	public static partial nint BindTextDomainCodeset(string domainname, string codeset);
+	public static partial nint BindTextDomainCodeset(string domainname, string? codeset);
 	#endregion
 }
