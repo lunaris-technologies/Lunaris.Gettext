@@ -218,7 +218,7 @@ public static partial class Gettext
 	}
 
 	/// <summary>
-	/// Sets <paramref name="locale" /> to the specified <paramref name="category" />.
+	/// Sets <paramref name="locale" /> for the specified <paramref name="category" />.
 	/// </summary>
 	/// <remarks>
 	/// In most cases, you do not need to call this function.
