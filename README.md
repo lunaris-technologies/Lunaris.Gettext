@@ -24,12 +24,12 @@ BindTextDomain("ExampleApp", "/usr/share/locale");
 TextDomain("ExampleApp");
 BindTextDomainCodeset("ExampleApp", "UTF-8");
 
-Console.WriteLine(__("Hello, world!"));
+Console.WriteLine(GetString("Hello, world!"));
                 // -> Saluton, mondo!
 
 // Plural forms
 Console.WriteLine(
-  N__(
+  GetPluralString(
     "I have {0} apple.",  // Singular form
     "I have {0} apples.", // Plural form
     2                     // Count
