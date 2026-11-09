@@ -13,15 +13,11 @@
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <Description>C# bindings for gettext</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://codeberg.org/shrimple/Lunaris.Gettext#readme</PackageProjectUrl>
-    <RepositoryUrl>https://codeberg.org/shrimple/Lunaris.Gettext</RepositoryUrl>
+    <PackageProjectUrl>https://codeberg.org/lunaris-technologies/Lunaris.Gettext#readme</PackageProjectUrl>
+    <RepositoryUrl>https://codeberg.org/lunaris-technologies/Lunaris.Gettext</RepositoryUrl>
     <PackageTags>gettext;</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-		<SupportedPlatform Include="linux" />
-	</ItemGroup>
 
 	<ItemGroup>
     <None Include="../README.md" Pack="true" PackagePath="\" />
