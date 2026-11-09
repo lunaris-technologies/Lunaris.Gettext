@@ -1,3 +1,8 @@
+> **Warning**
+> Lunaris.Gettext is **not unmaintained**, it currently is feature complete with
+> near-exact parity with gettext, and is therefore in **maintenance mode**,
+> which means new releases will only feature bug fixes.
+
 # Lunaris.Gettext
 
 A C# library that directly interfaces with the native gettext library.
