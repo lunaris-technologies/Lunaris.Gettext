@@ -58,9 +58,7 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _gettext(inputPtr);
-			if (resultPtr == 0) return string.Format(msgid, args);
-			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
+			return string.Format(Marshal.PtrToStringUTF8(_gettext(inputPtr))!, args);
 		}
 		finally
 		{
@@ -81,9 +79,7 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _dgettext(domainnamePtr, inputPtr);
-			if (resultPtr == 0) return string.Format(msgid, args);
-			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
+			return string.Format(Marshal.PtrToStringUTF8(_dgettext(domainnamePtr, inputPtr))!, args);
 		}
 		finally
 		{
@@ -106,9 +102,7 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _dcgettext(domainnamePtr, inputPtr, category);
-			if (resultPtr == 0) return string.Format(msgid, args);
-			return string.Format(Marshal.PtrToStringUTF8(resultPtr) ?? msgid, args);
+			return string.Format(Marshal.PtrToStringUTF8(_dcgettext(domainnamePtr, inputPtr, category))!, args);
 		}
 		finally
 		{
@@ -131,16 +125,9 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _ngettext(msgidPtr, msgidPluralPtr, n);
-
 			List<object> format = [n, .. args];
 
-			return string.Format(
-				resultPtr == 0
-					? (n == 1 ? msgid : msgidPlural)
-					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid : msgidPlural),
-				format.ToArray()
-			);
+			return string.Format(Marshal.PtrToStringUTF8(_ngettext(msgidPtr, msgidPluralPtr, n))!, format.ToArray());
 		}
 		finally
 		{
@@ -165,16 +152,9 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _dngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n);
-
 			List<object> format = [n, .. args];
 
-			return string.Format(
-				resultPtr == 0
-					? (n == 1 ? msgid : msgidPlural)
-					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid : msgidPlural),
-				format.ToArray()
-			);
+			return string.Format(Marshal.PtrToStringUTF8(_dngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n))!, format.ToArray());
 		}
 		finally
 		{
@@ -201,16 +181,9 @@ public static partial class Gettext
 
 		try
 		{
-			nint resultPtr = _dcngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n, category);
-
 			List<object> format = [n, .. args];
 
-			return string.Format(
-				resultPtr == 0
-					? (n == 1 ? msgid : msgidPlural)
-					: Marshal.PtrToStringUTF8(resultPtr) ?? (n == 1 ? msgid : msgidPlural),
-				format.ToArray()
-			);
+			return string.Format(Marshal.PtrToStringUTF8(_dcngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n, category))!, format.ToArray());
 		}
 		finally
 		{
