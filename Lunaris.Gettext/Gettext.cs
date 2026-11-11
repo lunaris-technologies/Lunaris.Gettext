@@ -28,16 +28,8 @@ public enum LocaleCategory
 /// <summary>
 /// The main <c>Gettext</c> class.
 /// </summary>
-/// <example>
-/// global using static Lunaris.Gettext;
-///
-/// BindTextDomain("ExampleApp", "/usr/share/locale");
-/// TextDomain("ExampleApp");
-/// BindTextDomainCodeset("ExampleApp", "UTF-8");
-///
-/// Console.WriteLine(__("Hello, world!"));
-/// Console.WriteLine(N__("I have {0} apple.", "I have {0} apples.", 2));
-/// </example>
+/// <seealso cref="GetString" />
+/// <seealso cref="GetPluralString" />
 public static partial class Gettext
 {
 	static Gettext()
