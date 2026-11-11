@@ -234,7 +234,7 @@ public static partial class Gettext
 	/// <seealso cref="LocaleCategory" />
 	public static string? SetLocale(LocaleCategory category, string locale)
 	{
-		if (locale == "") return Marshal.PtrToStringUTF8(_setlocale(category, null));
+		nint localeResult;
 
 		// windows is truly a snowflake operating system, because while
 		// everyone and everything uses posix/unix conventions, they
@@ -253,9 +253,10 @@ public static partial class Gettext
 
 			try
 			{
-				_ = new CultureInfo(formattedLocale);
+				localeResult = _setlocale(category, formattedLocale);
+				if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 
-				return Marshal.PtrToStringUTF8(_setlocale(category, formattedLocale));
+				return Marshal.PtrToStringUTF8(localeResult);
 			}
 			catch (CultureNotFoundException)
 			{
@@ -263,19 +264,19 @@ public static partial class Gettext
 				{
 					// reduce locale to bare language identifier
 					formattedLocale = formattedLocale.Split('-')[0];
-					_ = new CultureInfo(formattedLocale);
+					localeResult = _setlocale(category, formattedLocale);
+					if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 
-					return Marshal.PtrToStringUTF8(_setlocale(category, formattedLocale.Split('-')[0]));
+					return Marshal.PtrToStringUTF8(localeResult);
 				}
 				catch (CultureNotFoundException)
 				{
 					throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 				}
-
 			}
 		}
 
-		nint localeResult = _setlocale(category, locale);
+		localeResult = _setlocale(category, locale);
 		if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 
 		return Marshal.PtrToStringUTF8(localeResult);
