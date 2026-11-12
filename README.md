@@ -54,6 +54,6 @@ xgettext \
 	--keyword=GetString \
 	--keyword=GetPluralString:1,2 \
 	--keyword=__ \
-	--keyword=N__:1,2 \
+	--keyword=__N:1,2 \
 	Program.cs
 ```
