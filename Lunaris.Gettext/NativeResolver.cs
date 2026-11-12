@@ -22,7 +22,7 @@ internal static class NativeResolver
 			}
 		}
 
-		throw new DllNotFoundException("gettext is not installed on the system");
+		throw new DllNotFoundException($"{libraryName} is not installed on the system");
 	}
 
 	private static string[] GetPlatformFallbacks(string libraryName)
@@ -37,7 +37,8 @@ internal static class NativeResolver
 				_ => []
 			};
 		}
-		else if (libraryName == "libc")
+
+		if (libraryName == "libc")
 		{
 			return true switch
 			{
@@ -47,6 +48,7 @@ internal static class NativeResolver
 				_ => []
 			};
 		}
-		else return [libraryName];
+
+		return [libraryName];
 	}
 }
