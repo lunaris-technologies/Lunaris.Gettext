@@ -79,7 +79,7 @@ public static partial class Gettext
 	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralString(string msgid, string msgidPlural, nuint n, params object[] args)
+	public static string GetPluralString(string msgid, string msgidPlural, int n, params object[] args)
 	{
 		List<object> format = [n, .. args];
 
@@ -94,7 +94,7 @@ public static partial class Gettext
 	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, nuint n, params object[] args)
+	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, int n, params object[] args)
 	{
 		List<object> format = [n, .. args];
 
@@ -110,7 +110,7 @@ public static partial class Gettext
 	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid, string msgidPlural, nuint n, params object[] args)
+	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid, string msgidPlural, int n, params object[] args)
 	{
 		List<object> format = [n, .. args];
 
