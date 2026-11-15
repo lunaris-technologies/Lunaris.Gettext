@@ -49,6 +49,6 @@ internal static class NativeResolver
 			};
 		}
 
-		return [libraryName];
+		return [];
 	}
 }

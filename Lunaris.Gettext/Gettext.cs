@@ -6,7 +6,7 @@ namespace Lunaris.Gettext;
 /// <summary>
 /// Locale categories for controlling how <see cref="Gettext" /> formats messages
 /// </summary>
-/// <see cref="Gettext.SetLocale(LocaleCategory, string)" />
+/// <seealso cref="Gettext.SetLocale(LocaleCategory, string)" />
 public enum LocaleCategory
 {
 	/// <summary>Category for character classification and case-conversion rules</summary>
