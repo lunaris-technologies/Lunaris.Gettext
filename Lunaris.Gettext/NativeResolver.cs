@@ -44,7 +44,7 @@ internal static class NativeResolver
 			{
 				_ when OperatingSystem.IsWindows() => ["ucrtbase.dll"],
 				_ when OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD() => ["libc.so.6"],
-				_ when OperatingSystem.IsMacOS() => ["libSystem.B.dylib"],
+				_ when OperatingSystem.IsMacOS() => ["libSystem.dylib"],
 				_ => []
 			};
 		}
