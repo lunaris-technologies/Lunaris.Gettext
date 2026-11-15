@@ -46,16 +46,7 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetString(string msgid, params object[] args)
 	{
-		nint inputPtr = Marshal.StringToCoTaskMemUTF8(msgid);
-
-		try
-		{
-			return string.Format(Marshal.PtrToStringUTF8(_gettext(inputPtr))!, args);
-		}
-		finally
-		{
-			Marshal.FreeCoTaskMem(inputPtr);
-		}
+		return string.Format(Marshal.PtrToStringUTF8(_gettext(msgid))!, args);
 	}
 
 	/// <summary>
@@ -66,18 +57,7 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetStringFromDomain(string domain, string msgid, params object[] args)
 	{
-		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domain);
-		nint inputPtr = Marshal.StringToCoTaskMemUTF8(msgid);
-
-		try
-		{
-			return string.Format(Marshal.PtrToStringUTF8(_dgettext(domainnamePtr, inputPtr))!, args);
-		}
-		finally
-		{
-			Marshal.FreeCoTaskMem(domainnamePtr);
-			Marshal.FreeCoTaskMem(inputPtr);
-		}
+		return string.Format(Marshal.PtrToStringUTF8(_dgettext(domain, msgid))!, args);
 	}
 
 	/// <summary>
@@ -89,18 +69,7 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetStringFromDomainWithCategory(string domain, LocaleCategory category, string msgid, params object[] args)
 	{
-		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domain);
-		nint inputPtr = Marshal.StringToCoTaskMemUTF8(msgid);
-
-		try
-		{
-			return string.Format(Marshal.PtrToStringUTF8(_dcgettext(domainnamePtr, inputPtr, category))!, args);
-		}
-		finally
-		{
-			Marshal.FreeCoTaskMem(domainnamePtr);
-			Marshal.FreeCoTaskMem(inputPtr);
-		}
+		return string.Format(Marshal.PtrToStringUTF8(_dcgettext(domain, msgid, category))!, args);
 	}
 
 	/// <summary>
@@ -112,20 +81,9 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralString(string msgid, string msgidPlural, nuint n, params object[] args)
 	{
-		nint msgidPtr = Marshal.StringToCoTaskMemUTF8(msgid);
-		nint msgidPluralPtr = Marshal.StringToCoTaskMemUTF8(msgidPlural);
+		List<object> format = [n, .. args];
 
-		try
-		{
-			List<object> format = [n, .. args];
-
-			return string.Format(Marshal.PtrToStringUTF8(_ngettext(msgidPtr, msgidPluralPtr, n))!, format.ToArray());
-		}
-		finally
-		{
-			Marshal.FreeCoTaskMem(msgidPtr);
-			Marshal.FreeCoTaskMem(msgidPluralPtr);
-		}
+		return string.Format(Marshal.PtrToStringUTF8(_ngettext(msgid, msgidPlural, n))!, format.ToArray());
 	}
 
 	/// <summary>
@@ -138,22 +96,9 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, nuint n, params object[] args)
 	{
-		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domainname);
-		nint msgidPtr = Marshal.StringToCoTaskMemUTF8(msgid);
-		nint msgidPluralPtr = Marshal.StringToCoTaskMemUTF8(msgidPlural);
+		List<object> format = [n, .. args];
 
-		try
-		{
-			List<object> format = [n, .. args];
-
-			return string.Format(Marshal.PtrToStringUTF8(_dngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n))!, format.ToArray());
-		}
-		finally
-		{
-			Marshal.FreeCoTaskMem(domainnamePtr);
-			Marshal.FreeCoTaskMem(msgidPtr);
-			Marshal.FreeCoTaskMem(msgidPluralPtr);
-		}
+		return string.Format(Marshal.PtrToStringUTF8(_dngettext(domainname, msgid, msgidPlural, n))!, format.ToArray());
 	}
 
 	/// <summary>
@@ -167,22 +112,9 @@ public static partial class Gettext
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid, string msgidPlural, nuint n, params object[] args)
 	{
-		nint domainnamePtr = Marshal.StringToCoTaskMemUTF8(domainname);
-		nint msgidPtr = Marshal.StringToCoTaskMemUTF8(msgid);
-		nint msgidPluralPtr = Marshal.StringToCoTaskMemUTF8(msgidPlural);
+		List<object> format = [n, .. args];
 
-		try
-		{
-			List<object> format = [n, .. args];
-
-			return string.Format(Marshal.PtrToStringUTF8(_dcngettext(domainnamePtr, msgidPtr, msgidPluralPtr, n, category))!, format.ToArray());
-		}
-		finally
-		{
-			Marshal.FreeCoTaskMem(domainnamePtr);
-			Marshal.FreeCoTaskMem(msgidPtr);
-			Marshal.FreeCoTaskMem(msgidPluralPtr);
-		}
+		return string.Format(Marshal.PtrToStringUTF8(_dcngettext(domainname, msgid, msgidPlural, n, category))!, format.ToArray());
 	}
 
 	/// <summary>
@@ -242,8 +174,7 @@ public static partial class Gettext
 		}
 
 		localeResult = _setlocale(category, locale);
-		if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 
-		return Marshal.PtrToStringUTF8(localeResult);
+		return Marshal.PtrToStringUTF8(localeResult) ?? throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 	}
 }

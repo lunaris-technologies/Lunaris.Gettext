@@ -6,22 +6,22 @@ public static partial class Gettext
 {
 	#region Internal Classes
 	[LibraryImport("gettext", EntryPoint = "gettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _gettext(nint msgid);
+	private static partial nint _gettext(string msgid);
 
 	[LibraryImport("gettext", EntryPoint = "dgettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _dgettext(nint domain, nint msgid);
+	private static partial nint _dgettext(string domain, string msgid);
 
 	[LibraryImport("gettext", EntryPoint = "dcgettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _dcgettext(nint domain, nint msgid, LocaleCategory category);
+	private static partial nint _dcgettext(string domain, string msgid, LocaleCategory category);
 
 	[LibraryImport("gettext", EntryPoint = "ngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _ngettext(nint msgid, nint msgidPlural, nuint n);
+	private static partial nint _ngettext(string msgid, string msgidPlural, nuint n);
 
 	[LibraryImport("gettext", EntryPoint = "dngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _dngettext(nint domainname, nint msgid, nint msgidPlural, nuint n);
+	private static partial nint _dngettext(string domainname, string msgid, string msgidPlural, nuint n);
 
 	[LibraryImport("gettext", EntryPoint = "dcngettext", StringMarshalling = StringMarshalling.Utf8)]
-	private static partial nint _dcngettext(nint domainname, nint msgid, nint msgidPlural, nuint n, LocaleCategory category);
+	private static partial nint _dcngettext(string domainname, string msgid, string msgidPlural, nuint n, LocaleCategory category);
 
 	[LibraryImport("libc", EntryPoint = "setlocale", StringMarshalling = StringMarshalling.Utf8)]
 	private static partial nint _setlocale(LocaleCategory category, string? locale);
