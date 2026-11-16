@@ -129,10 +129,8 @@ public static partial class Gettext
 	/// <param name="category">The locale category.</param>
 	/// <param name="locale">The locale in the POSIX locale identifier format. Leaving this parameter blank derives the locale from the environment.</param>
 	/// <seealso cref="LocaleCategory" />
-	public static string? SetLocale(LocaleCategory category, string locale)
+	public static string SetLocale(LocaleCategory category, string locale)
 	{
-		nint localeResult;
-
 		// windows is truly a snowflake operating system, because while
 		// everyone and everything uses posix/unix conventions, they
 		// have to roll their own everything, so we have this compat now.
@@ -141,7 +139,7 @@ public static partial class Gettext
 			// do not compat locale if provided locale passes as IETF BCP 47
 			// standard
 			if (locale.Contains('-'))
-				return Marshal.PtrToStringUTF8(_setlocale(category, locale));
+				return Marshal.PtrToStringUTF8(_setlocale(category, locale))!;
 
 			// underscores must be replaced with hyphens and extra locale
 			// identifiers should be stripped because of the IETF BCP 47
@@ -150,31 +148,18 @@ public static partial class Gettext
 
 			try
 			{
-				localeResult = _setlocale(category, formattedLocale);
-				if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
-
-				return Marshal.PtrToStringUTF8(localeResult);
+				return Marshal.PtrToStringUTF8(_setlocale(category, formattedLocale))!
+					   ?? throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 			}
 			catch (CultureNotFoundException)
 			{
-				try
-				{
-					// reduce locale to bare language identifier
-					formattedLocale = formattedLocale.Split('-')[0];
-					localeResult = _setlocale(category, formattedLocale);
-					if (localeResult == 0) throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
-
-					return Marshal.PtrToStringUTF8(localeResult);
-				}
-				catch (CultureNotFoundException)
-				{
-					throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
-				}
+				// reduce locale to bare language identifier
+				return Marshal.PtrToStringUTF8(_setlocale(category, formattedLocale.Split('-')[0]))!
+					   ?? throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 			}
 		}
 
-		localeResult = _setlocale(category, locale);
-
-		return Marshal.PtrToStringUTF8(localeResult) ?? throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
+		return Marshal.PtrToStringUTF8(_setlocale(category, locale))
+			   ?? throw new CultureNotFoundException($"\"{locale}\" is not a valid locale");
 	}
 }
