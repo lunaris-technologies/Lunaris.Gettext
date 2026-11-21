@@ -138,8 +138,12 @@ public static partial class Gettext
 		{
 			// do not compat locale if provided locale passes as IETF BCP 47
 			// standard
-			if (locale.Contains('-'))
+			if (locale.Contains('-') || locale.StartsWith("."))
 				return Marshal.PtrToStringUTF8(_setlocale(category, locale))!;
+
+			// set locale to a generic locale if "C" or "POSIX" is passed
+			if (locale == "C" || locale == "POSIX")
+				return Marshal.PtrToStringUTF8(_setlocale(category, "C"))!;
 
 			// underscores must be replaced with hyphens and extra locale
 			// identifiers should be stripped because of the IETF BCP 47
