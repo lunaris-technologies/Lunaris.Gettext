@@ -21,7 +21,7 @@ public class SingularForms
 	[Fact]
 	public void Translated()
 	{
-		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.SetLocale(LocaleCategory.All, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
@@ -34,7 +34,7 @@ public class SingularForms
 	[Fact]
 	public void TranslationConcatenated()
 	{
-		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.SetLocale(LocaleCategory.All, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");

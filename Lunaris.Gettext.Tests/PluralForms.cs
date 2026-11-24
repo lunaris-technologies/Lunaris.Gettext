@@ -45,7 +45,7 @@ public class PluralForms
 	[Fact]
 	public void SingularTranslated()
 	{
-		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.SetLocale(LocaleCategory.All, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
@@ -58,7 +58,7 @@ public class PluralForms
 	[Fact]
 	public void SingularTranslationConcatenated()
 	{
-		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.SetLocale(LocaleCategory.All, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
@@ -75,7 +75,7 @@ public class PluralForms
 	[Fact]
 	public void PluralTranslated()
 	{
-		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.SetLocale(LocaleCategory.All, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
@@ -88,7 +88,7 @@ public class PluralForms
 	[Fact]
 	public void PluralTranslationConcatenated()
 	{
-		Gettext.SetLocale(LocaleCategory.Messages, "eo");
+		Gettext.SetLocale(LocaleCategory.All, "eo");
 		Gettext.BindTextDomain("Lunaris.Gettext.Tests", $"{AppContext.BaseDirectory}locale");
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
