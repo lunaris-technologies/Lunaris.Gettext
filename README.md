@@ -20,6 +20,16 @@ pre-installed. On macOS, it can be installed via Homebrew, and there are
 packages available for gettext on winget. Git Bash being installed is enough, as
 it also pulls in gettext as a runtime dependency.
 
+## Testing Targets
+
+Currently, these platforms are actively tested against the library:
+
+- Linux
+  - glibc (Fedora Linux)
+  - musl (Alpine Linux)
+- Windows
+  - Windows 11 Professional
+
 ## Example
 
 ```cs
