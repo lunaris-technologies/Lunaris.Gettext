@@ -20,6 +20,7 @@ public enum LocaleCategory
 	/// <summary>Category for currency formatting conventions.</summary>
 	Monetary,
 	/// <summary>Category for the user interface.</summary>
+	/// <remarks>Not supported in Windows. Use <see cref="All" /> instead.</remarks>
 	Messages,
 	/// <summary>All categories.</summary>
 	All
