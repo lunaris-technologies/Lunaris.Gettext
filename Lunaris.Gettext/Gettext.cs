@@ -46,9 +46,7 @@ public static partial class Gettext
 	/// <param name="msgid">The message ID.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetString(string msgid, params object[] args)
-	{
-		return string.Format(Marshal.PtrToStringUTF8(_gettext(msgid))!, args);
-	}
+		=> string.Format(Marshal.PtrToStringUTF8(_gettext(msgid))!, args);
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> from <paramref name="domain" /> using <see cref="LocaleCategory.Messages" />.
@@ -57,9 +55,7 @@ public static partial class Gettext
 	/// <param name="msgid">The message ID.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetStringFromDomain(string domain, string msgid, params object[] args)
-	{
-		return string.Format(Marshal.PtrToStringUTF8(_dgettext(domain, msgid))!, args);
-	}
+		=> string.Format(Marshal.PtrToStringUTF8(_dgettext(domain, msgid))!, args);
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> from <paramref name="domain" /> using <paramref name="category" />.
@@ -69,9 +65,7 @@ public static partial class Gettext
 	/// <param name="msgid">The message ID.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
 	public static string GetStringFromDomainWithCategory(string domain, LocaleCategory category, string msgid, params object[] args)
-	{
-		return string.Format(Marshal.PtrToStringUTF8(_dcgettext(domain, msgid, category))!, args);
-	}
+		=> string.Format(Marshal.PtrToStringUTF8(_dcgettext(domain, msgid, category))!, args);
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
@@ -81,11 +75,7 @@ public static partial class Gettext
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralString(string msgid, string msgidPlural, int n, params object[] args)
-	{
-		List<object> format = [n, .. args];
-
-		return string.Format(Marshal.PtrToStringUTF8(_ngettext(msgid, msgidPlural, n))!, format.ToArray());
-	}
+		=> string.Format(Marshal.PtrToStringUTF8(_ngettext(msgid, msgidPlural, n))!, [n, .. args]);
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from <paramref name="domainname"/> using <see cref="LocaleCategory.Messages" />.
@@ -96,11 +86,7 @@ public static partial class Gettext
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, int n, params object[] args)
-	{
-		List<object> format = [n, .. args];
-
-		return string.Format(Marshal.PtrToStringUTF8(_dngettext(domainname, msgid, msgidPlural, n))!, format.ToArray());
-	}
+		=> string.Format(Marshal.PtrToStringUTF8(_dngettext(domainname, msgid, msgidPlural, n))!, [n, .. args]);
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from <paramref name="domainname"/> using <paramref name="category"/>.
@@ -112,11 +98,7 @@ public static partial class Gettext
 	/// <param name="n">The count.</param>
 	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
 	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid, string msgidPlural, int n, params object[] args)
-	{
-		List<object> format = [n, .. args];
-
-		return string.Format(Marshal.PtrToStringUTF8(_dcngettext(domainname, msgid, msgidPlural, n, category))!, format.ToArray());
-	}
+		=> string.Format(Marshal.PtrToStringUTF8(_dcngettext(domainname, msgid, msgidPlural, n, category))!, [n, .. args]);
 
 	/// <summary>
 	/// Sets <paramref name="locale" /> for the specified <paramref name="category" />.
