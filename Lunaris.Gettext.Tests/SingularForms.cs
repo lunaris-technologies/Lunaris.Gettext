@@ -13,7 +13,7 @@ public class SingularForms
 	[Fact]
 	public void Concatenated()
 	{
-		var result = Gettext.GetString("The quick brown {1} jumped over the lazy {0}", "dog", "fox");
+		var result = string.Format(Gettext.GetString("The quick brown {1} jumped over the lazy {0}"), "dog", "fox");
 
 		Assert.Equal("The quick brown fox jumped over the lazy dog", result);
 	}
@@ -39,7 +39,7 @@ public class SingularForms
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
-		var result = Gettext.GetString("My name is {0}.", "Johano");
+		var result = string.Format(Gettext.GetString("My name is {0}."), "Johano");
 
 		Assert.Equal("Mia nomo estas Johano.", result);
 	}

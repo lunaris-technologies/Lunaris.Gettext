@@ -44,61 +44,58 @@ public static partial class Gettext
 	/// Gets <paramref name="msgid" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
 	/// <param name="msgid">The message ID.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
-	public static string GetString(string msgid, params object[] args)
-		=> string.Format(Marshal.PtrToStringUTF8(_gettext(msgid))!, args);
+	public static string GetString(string msgid)
+		=> Marshal.PtrToStringUTF8(_gettext(msgid))!;
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> from <paramref name="domain" /> using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
 	/// <param name="domain">The domain to get <paramref name="msgid" /> from.</param>
 	/// <param name="msgid">The message ID.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
-	public static string GetStringFromDomain(string domain, string msgid, params object[] args)
-		=> string.Format(Marshal.PtrToStringUTF8(_dgettext(domain, msgid))!, args);
+	public static string GetStringFromDomain(string domain, string msgid)
+		=> Marshal.PtrToStringUTF8(_dgettext(domain, msgid))!;
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> from <paramref name="domain" /> using <paramref name="category" />.
 	/// </summary>
 	/// <param name="domain">The domain to get <paramref name="msgid" /> from.</param>
-	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
 	/// <param name="msgid">The message ID.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c></param>
-	public static string GetStringFromDomainWithCategory(string domain, LocaleCategory category, string msgid, params object[] args)
-		=> string.Format(Marshal.PtrToStringUTF8(_dcgettext(domain, msgid, category))!, args);
+	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
+	public static string GetStringFromDomainWithCategory(string domain, string msgid, LocaleCategory category)
+		=> Marshal.PtrToStringUTF8(_dcgettext(domain, msgid, category))!;
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from the selected domain using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
+	/// <remarks><c>{0}</c> should always be reserved for <paramref name="n" /> whenever possible.</remarks>
 	/// <param name="msgid">The singular message ID.</param>
 	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralString(string msgid, string msgidPlural, int n, params object[] args)
-		=> string.Format(Marshal.PtrToStringUTF8(_ngettext(msgid, msgidPlural, n))!, [n, .. args]);
+	public static string GetPluralString(string msgid, string msgidPlural, int n)
+		=> Marshal.PtrToStringUTF8(_ngettext(msgid, msgidPlural, n))!;
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from <paramref name="domainname"/> using <see cref="LocaleCategory.Messages" />.
 	/// </summary>
+	/// <remarks><c>{0}</c> should always be reserved for <paramref name="n" /> whenever possible.</remarks>
 	/// <param name="domainname">The domain to get <paramref name="msgid" /> and <paramref name="msgidPlural" /> from</param>
 	/// <param name="msgid">The singular message ID.</param>
 	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, int n, params object[] args)
-		=> string.Format(Marshal.PtrToStringUTF8(_dngettext(domainname, msgid, msgidPlural, n))!, [n, .. args]);
+	public static string GetPluralStringFromDomain(string domainname, string msgid, string msgidPlural, int n)
+		=> Marshal.PtrToStringUTF8(_dngettext(domainname, msgid, msgidPlural, n))!;
 
 	/// <summary>
 	/// Gets <paramref name="msgid" /> and <paramref name="msgidPlural" /> from <paramref name="domainname"/> using <paramref name="category"/>.
 	/// </summary>
+	/// <remarks><c>{0}</c> should always be reserved for <paramref name="n" /> whenever possible.</remarks>
 	/// <param name="domainname">The domain to get <paramref name="msgid" /> and <paramref name="msgidPlural" /> from</param>
-	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
 	/// <param name="msgid">The singular message ID.</param>
 	/// <param name="msgidPlural">The plural message ID.</param>
 	/// <param name="n">The count.</param>
-	/// <param name="args">String replacements to pass to <c>string.Format</c>. <c>{0}</c> is always reserved for <paramref name="n" />.</param>
-	public static string GetPluralStringFromDomainWithCategory(string domainname, LocaleCategory category, string msgid, string msgidPlural, int n, params object[] args)
-		=> string.Format(Marshal.PtrToStringUTF8(_dcngettext(domainname, msgid, msgidPlural, n, category))!, [n, .. args]);
+	/// <param name="category">The <see cref="LocaleCategory"/> to use.</param>
+	public static string GetPluralStringFromDomainWithCategory(string domainname, string msgid, string msgidPlural, int n, LocaleCategory category)
+		=> Marshal.PtrToStringUTF8(_dcngettext(domainname, msgid, msgidPlural, n, category))!;
 
 	/// <summary>
 	/// Sets <paramref name="locale" /> for the specified <paramref name="category" />.

@@ -11,8 +11,6 @@ The syntax is meant to be near-exact with how you would utilize gettext via C,
 including shorthands, with the exception of certain function design changes for
 standard C# conventions.
 
-String concatenation works the same as `string.Format` (`{0}`, `{1}`, etc.).
-
 ## Dependencies
 
 gettext is the only **runtime dependency**. If you are on Linux, it comes
@@ -44,10 +42,13 @@ Console.WriteLine(GetString("Hello, world!"));
 
 // Plural forms
 Console.WriteLine(
-  GetPluralString(
-    "I have {0} apple.",  // Singular form
-    "I have {0} apples.", // Plural form
-    2                     // Count
+  string.Format(
+    GetPluralString(
+      "I have {0} apple.",  // Singular form
+      "I have {0} apples.", // Plural form
+      2                     // Count
+    ),
+    2
   )
 ); // -> Mi havas 2 pomoj
 ```

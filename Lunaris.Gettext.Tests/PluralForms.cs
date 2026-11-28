@@ -13,7 +13,7 @@ public class PluralForms
 	[Fact]
 	public void Plural()
 	{
-		var result = Gettext.GetPluralString("{0} apple", "{0} apples", 2);
+		var result = string.Format(Gettext.GetPluralString("{0} apple", "{0} apples", 2), 2);
 
 		Assert.Equal("2 apples", result);
 	}
@@ -21,21 +21,27 @@ public class PluralForms
 	[Fact]
 	public void SingularConcatenated()
 	{
-		var result = Gettext.GetPluralString(
-			"My name is {1} and I have one apple",
-			"My name is {1} and I have {0} apples",
+		var result = string.Format(
+			Gettext.GetPluralString(
+				"My name is {1} and I have {0} apple",
+				"My name is {1} and I have {0} apples",
+				1
+			),
 			1, "John"
 		);
 
-		Assert.Equal("My name is John and I have one apple", result);
+		Assert.Equal("My name is John and I have 1 apple", result);
 	}
 
 	[Fact]
 	public void PluralConcatenated()
 	{
-		var result = Gettext.GetPluralString(
-			"My name is {1} and I have one apple",
-			"My name is {1} and I have {0} apples",
+		var result = string.Format(
+			Gettext.GetPluralString(
+				"My name is {1} and I have {0} apple",
+				"My name is {1} and I have {0} apples",
+				2
+			),
 			2, "John"
 		);
 
@@ -50,9 +56,9 @@ public class PluralForms
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
-		var result = Gettext.GetPluralString("I have one apple.", "I have {0} apples.", 1);
+		var result = string.Format(Gettext.GetPluralString("I have {0} apple.", "I have {0} apples.", 1), 1);
 
-		Assert.Equal("Mi havas unu pomon.", result);
+		Assert.Equal("Mi havas 1 pomon.", result);
 	}
 
 	[Fact]
@@ -63,13 +69,16 @@ public class PluralForms
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
-		var result = Gettext.GetPluralString(
-			"My name is {1} and I have one apple.",
-			"My name is {1} and I have {0} apples.",
+		var result = string.Format(
+			Gettext.GetPluralString(
+				"My name is {1} and I have {0} apple.",
+				"My name is {1} and I have {0} apples.",
+				1
+			),
 			1, "Johano"
 		);
 
-		Assert.Equal("Mia nomo estas Johano kaj mi havas unu pomon.", result);
+		Assert.Equal("Mia nomo estas Johano kaj mi havas 1 pomon.", result);
 	}
 
 	[Fact]
@@ -80,7 +89,14 @@ public class PluralForms
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
-		var result = Gettext.GetPluralString("I have one apple.", "I have {0} apples.", 2);
+		var result = string.Format(
+			Gettext.GetPluralString(
+				"I have {0} apple.",
+				"I have {0} apples.",
+				2
+			),
+			2
+		);
 
 		Assert.Equal("Mi havas 2 pomojn.", result);
 	}
@@ -93,9 +109,12 @@ public class PluralForms
 		Gettext.TextDomain("Lunaris.Gettext.Tests");
 		Gettext.BindTextDomainCodeset("Lunaris.Gettext.Tests", "UTF-8");
 
-		var result = Gettext.GetPluralString(
-			"My name is {1} and I have one apple.",
-			"My name is {1} and I have {0} apples.",
+		var result = string.Format(
+			Gettext.GetPluralString(
+				"My name is {1} and I have {0} apple.",
+				"My name is {1} and I have {0} apples.",
+				2
+			),
 			2, "Johano"
 		);
 
