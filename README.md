@@ -28,7 +28,7 @@ Currently, these platforms are actively tested against the library:
   - glibc (Fedora Linux)
   - musl (Alpine Linux)
 - Windows
-  - Windows 11 Professional
+  - Windows 11 IoT Enterprise LTSC
 
 ## Example
 
