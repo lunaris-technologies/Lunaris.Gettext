@@ -43,7 +43,17 @@ internal static class NativeResolver
 			return true switch
 			{
 				_ when OperatingSystem.IsWindows() => ["ucrtbase.dll"],
-				_ when OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD() => ["libc.so.6"],
+				_ when OperatingSystem.IsLinux() => [
+					$"ld-musl-{(
+						RuntimeInformation.OSArchitecture == Architecture.X64
+							? "x86_64"
+							: RuntimeInformation.OSArchitecture == Architecture.Arm64
+								? "aarch64"
+								: ""
+					)}.so.1",
+					"libc.so.6"
+				],
+				_ when OperatingSystem.IsFreeBSD() => ["libc.so.7"],
 				_ when OperatingSystem.IsMacOS() => ["libSystem.dylib"],
 				_ => []
 			};
